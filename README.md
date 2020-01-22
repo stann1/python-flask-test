@@ -1,3 +1,3 @@
-# flask-firebase-test
+# flask-mongodb-test
 
-Project for testing python-flask with firebase db
+Simple TODO-app for testing python-flask with mongo db
