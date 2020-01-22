@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, redirect
 from data.mongoInit import initDB
 from flask_pymongo import ASCENDING, DESCENDING
-import datetime
 from bson.objectid import ObjectId
+from data.Todo import Todo
 
 
 app = Flask(__name__)
@@ -23,11 +23,8 @@ def create_todo():
     if request.method == "POST":
         try:
             print(f"Saved {request.form['title']}")  
-            title = request.form['title']
-            description = request.form['description']
-            dueDateStr = request.form['dueDate']
-            dueDate = datetime.datetime.strptime(dueDateStr, "%Y-%m-%d")
-            mongo.db.todos.insert_one({'title': title, 'description': description, 'dueDate': dueDate })
+            todo = Todo.mapFromInput(request.form)
+            mongo.db.todos.insert_one({'title': todo.title, 'description': todo.description, 'dueDate': todo.dueDate })
         except Exception as err:
             return f'Error processing the request. {err}'
         return redirect("/todos")
