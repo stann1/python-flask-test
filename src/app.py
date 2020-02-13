@@ -3,10 +3,13 @@ from data.mongoInit import initDB
 from flask_pymongo import ASCENDING, DESCENDING
 from bson.objectid import ObjectId
 from data.Todo import Todo
+import pprint
 
 
 app = Flask(__name__)
+app.config.from_object('config.BaseConfig')
 mongo = initDB(app)
+#pprint.pprint(app.config)
 
 @app.route('/')
 def index():
