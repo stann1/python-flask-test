@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+    <h2>Edit {{todo.title}}</h2>
+    <div class="row">
+        <form action="/todos/edit" method="put" class="form">
+            <input type="hidden" value="{{todo.id}}" />
+            <div class="form-group">
+                <label for="title-val">Title</label>
+                <input type="text" class="form-control" name="title" id="title-val" value="{{todo.title}}">
+            </div>
+            <div class="form-group">
+                <label for="description-val">Description</label>
+                <input type="text" class="form-control" name="description" id="description-val" value="{{todo.description}}">
+            </div>
+            <div class="form-group">
+                <label for="date-val">Due date</label>
+                <input type="date" class="form-control" name="dueDate" id="date-val" value="{{todo.dueDate}}">
+            </div>
+            <input type="submit" value="Save" class="btn btn-primary">
+        </form>
+    </div>
+    <div class="row">
+        <a class="btn btn-default" href="/todos">Cancel</a>
+    </div>
+{% endblock %}

@@ -1,27 +1,23 @@
-from flask import Flask, render_template, request, redirect
-from data.mongoInit import initDB
+from flask import render_template, request, redirect, Blueprint
+from ..data.mongoDb import mongo
 from flask_pymongo import ASCENDING, DESCENDING
 from bson.objectid import ObjectId
-from data.Todo import Todo
+from ..data.Todo import Todo
 import pprint
 
+main = Blueprint('app', __name__)
 
-app = Flask(__name__)
-app.config.from_object('config.BaseConfig')
-mongo = initDB(app)
-#pprint.pprint(app.config)
-
-@app.route('/')
+@main.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/todos')
+@main.route('/todos')
 def list_todos():
     todos = mongo.db.todos.find({})
-    print(todos.collection.count())
+    print(f'Number of items: {todos.collection.count()}')
     return render_template('todos.html', list=todos.sort('dueDate', ASCENDING))
 
-@app.route('/todos/create', methods=["GET","POST"])
+@main.route('/todos/create', methods=["GET","POST"])
 def create_todo():
     if request.method == "POST":
         try:
@@ -34,12 +30,13 @@ def create_todo():
     else:
         return render_template('create.html')
 
-@app.route('/todos/delete/<string:todo_id>')
+@main.route('/todos/delete/<string:todo_id>')
 def delete_todo(todo_id):
     print(f'Deleting {todo_id}')
     mongo.db.todos.find_one_and_delete({'_id': ObjectId(todo_id)})
     return redirect("/todos")
 
-
-if(__name__ == "__main__"):
-    app.run(debug=True) 
+@main.route('/todos/edit/<string:todo_id>')
+def find(todo_id):
+    todo = mongo.db.todos.find_one({'_id': ObjectId(todo_id)})
+    return render_template("edit.html", todo=Todo.mapFromDbModel(todo))

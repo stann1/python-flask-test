@@ -24,7 +24,7 @@
                     <td>{{todo.description}}</td>
                     <td>{{todo.dueDate}}</td>
                     <td>
-                        <a href="/todos/delete/{{todo._id}}">Delete</a>
+                        <a href="/todos/edit/{{todo._id}}">Edit</a> | <a href="/todos/delete/{{todo._id}}">Delete</a>
                     </td>
                 </tr>
             {% endfor %}

@@ -13,11 +13,11 @@ class Todo:
         self.id = id
     
     @staticmethod
-    def mapFromDbModel(self, model):
-        id = str(model._id)
-        title = model.title
-        description = model.description
-        dueDate = model.dueDate
+    def mapFromDbModel(model):
+        id = str(model['_id'])
+        title = model['title']
+        description = model['description']
+        dueDate = datetime.datetime.date(model['dueDate'])
 
         return Todo(title, description, dueDate, id)
     
