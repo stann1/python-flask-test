@@ -1,31 +1,26 @@
 import datetime
 
 class Todo:
-    id = None
-    title = None
-    description = None
-    dueDate = None
-
-    def __init__(self, title, description, dueDate, id=None):
+    def __init__(self, title, description, due_date, _id=None):
         self.title = title
         self.description = description
-        self.dueDate = dueDate
-        self.id = id
+        self.due_date = due_date
+        self._id = _id
     
     @staticmethod
     def mapFromDbModel(model):
-        id = str(model['_id'])
+        _id = str(model['_id'])
         title = model['title']
         description = model['description']
-        dueDate = datetime.datetime.date(model['dueDate'])
+        due_date = datetime.datetime.date(model['dueDate'])
 
-        return Todo(title, description, dueDate, id)
+        return Todo(title, description, due_date, _id)
     
     @staticmethod
     def mapFromInput(form):
         title = form['title']
         description = form['description']
-        dueDateStr = form['dueDate']
-        dueDate = datetime.datetime.strptime(dueDateStr, "%Y-%m-%d") if dueDateStr else None
+        due_date_str = form['due_date']
+        due_date = datetime.datetime.strptime(due_date_str, "%Y-%m-%d") if due_date_str else None
 
-        return Todo(title, description, dueDate)
+        return Todo(title, description, due_date)
