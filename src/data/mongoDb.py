@@ -5,4 +5,6 @@ mongo = PyMongo()
 def init_db(app):
     mongo_uri = app.config["DATABASE_URI"]
     mongo.init_app(app, uri=mongo_uri)
+    print('initializing db...')
+    
     return mongo
